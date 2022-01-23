@@ -1,107 +1,84 @@
-<?php
+@extends('layouts.app')
 
-namespace App\Http\Controllers;
+@section('content')
 
-use App\Models\Task;
-use App\Models\Client;
-use App\Models\User;
-use App\Models\Project;
-use Illuminate\Http\Request;
+    <form action="{{ route('tasks.update',$task) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="card">
+            <div class="card-header">Edit task</div>
 
-class tasksController extends Controller
-{
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="required" for="title">Title</label>
+                    <input class="form-control" type="text" name="title" value="{{$task->title}}" id="title" required>
+                    <span class="help-block"> </span>
+                </div>
 
-    public function index()
-    {
-        $task = Task::paginate(20);
-        return view('tasks.index')->with('tasks',$task);
-    }
+                <div class="form-group">
+                    <label class="required" for="description">Description</label>
+                    <textarea class="form-control" rows="10" name="description"  id="description">{{$task->description}}</textarea>
+                    <span class="help-block"> </span>
+                </div>
 
-    public function trashedTasks()
-    {
-        $task = Task::onlyTrashed()->paginate(20);
-        return view('tasks.trash')->with('tasks',$task);
-    }
-    public function create()
-    {
-        $user = User::all()->pluck('name','id');
-        $client = Client::all()->pluck('company_name','id');
-        $project = Project::all()->pluck('title','id');
-        return view('tasks.create')->with('users',$user)->with('clients',$client)->with('projects',$project);
-    }
+                <div class="form-group">
+                    <label for="deadline">Deadline</label>
+                    <input class="form-control" type="date" name="deadline" value="{{$task->deadline}}" id="deadline">
+                    <span class="help-block"> </span>
+                </div>
 
-    public function store(Request $request)
-    {
-        $this->validate($request,[
-            'title'=>'required|string|max:255',
-            'description' =>'required|string:max:1000',
-            'deadline'=>'required|date',
-            'status'=>'required|string'
-        ]);
+                <div class="form-group">
+                    <label for="user_id">Assigned user</label>
+                    <select class="form-control" name="user_id" id="user_id" required>
+                        @foreach ($users as $id => $entry)
+                            <option value="{{ $id }}" {{ $task->user_id == $id ? 'selected' : '' }}>{{ $entry }}
+                            </option>
+                        @endforeach
+                    </select>
 
-        $task = Task::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'user_id' => $request->user_id,
-            'client_id' =>$request->client_id,
-            'project_id' =>$request->project_id,
-            'deadline' =>$request->deadline,
-            'status' =>$request->status
-        ]);
-        // dd($task);
-        return redirect()->route('tasks.index');
-    }
+                    <span class="help-block"> </span>
+                </div>
 
-    public function show($id)
-    {
+                <div class="form-group">
+                    <label for="client_id">Assigned client</label>
+                    <select class="form-control" name="client_id" id="client_id" required>
+                        @foreach ($clients as $id => $entry)
+                            <option value="{{ $id }}" {{ $task->client_id == $id ? 'selected' : '' }}>{{ $entry }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <span class="help-block"> </span>
+                </div>
 
-    }
+                <div class="form-group">
+                    <label for="client_id">Assigned project</label>
+                    <select class="form-control" name="project_id" id="project_id" required>
+                        @foreach ($projects as $id => $entry)
+                            <option value="{{ $id }}" {{ $task->project_id == $id ? 'selected' : '' }}>{{ $entry }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <span class="help-block"> </span>
+                </div>
 
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control" name="status" id="status" required>
+                        @foreach (App\Models\Task::status as $item)
+                            <option value="{{ $item }}" {{ $item == $task->status ? 'selected' : '' }}>{{ $item }}
+                            </option>
+                        @endforeach
+                    </select>
 
-    public function edit(Task $task)
-    {
-        $user = User::all()->pluck('name','id');
-        $client = Client::all()->pluck('company_name','id');
-        $project = Project::all()->pluck('title','id');
-        return view('tasks.edit')->with('users',$user)->with('clients',$client)->with('projects',$project)->with('task',$task);
-    }
+                    <span class="help-block"> </span>
+                </div>
 
+                <button class="btn btn-primary" type="submit">
+                    Save
+                </button>
+            </div>
+        </div>
 
-    public function update(Request $request, Task $task)
-    {
-        $this->validate($request,[
-            'title'=>'required|string|max:255',
-            'description' =>'required|string:max:1000',
-            'deadline'=>'required|date',
-            'status'=>'required|string'
-        ]);
-        $task->title = $request->title;
-        $task->description = $request->description;
-        $task->user_id = $request->user_id;
-        $task->client_id = $request->client_id;
-        $task->project_id = $request->project_id;
-        $task->deadline = $request->deadline;
-        $task->status = $request->status;
-        $task->save();
-        return redirect()->route('tasks.index');
+    </form>
 
-    }
-
-    public function restore($id)
-    {
-        $task= Task::onlyTrashed()->where('id',$id)->restore();
-        return redirect()->route('tasks.index');
-    }
-
-    public function destroy(Task $task)
-    {
-        $task->delete($task->id);
-        return redirect()->back();
-    }
-
-    public function delete($id)
-    {
-        $task= Task::onlyTrashed()->where('id',$id)->forceDelete();
-        return redirect()->back();
-    }
-}
+@endsection

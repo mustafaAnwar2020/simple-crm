@@ -12,4 +12,11 @@ class Client extends Model
     protected $fillable = ['contact_name','contact_phone','contact_email','company_name','company_address','company_zip',
     'company_vat'];
     protected $table = 'clients';
+    
+    public function projects()
+    {
+        return $this->hasMany('App\Models\Project');
+    }
 }
+
+

@@ -58,7 +58,7 @@
                 </tbody>
             </table>
 
-            {{-- {{ $clients->withQueryString()->links() }} --}}
+            {{ $clients->withQueryString()->links() }}
         </div>
     </div>
 

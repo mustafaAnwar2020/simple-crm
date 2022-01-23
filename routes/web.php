@@ -36,4 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/projects/restore/{project}','App\Http\Controllers\projectController@restore')->name('project.restore');
     Route::delete('/projects/delete/{project}','App\Http\Controllers\projectController@delete')->name('project.delete');
     Route::resource('/projects','App\Http\Controllers\projectController');
+    Route::get('/tasks/trash','App\Http\Controllers\tasksController@trashedTasks')->name('tasks.trash');
+    Route::get('/tasks/restore/{task}','App\Http\Controllers\tasksController@restore')->name('tasks.restore');
+    Route::delete('/tasks/delete/{task}','App\Http\Controllers\tasksController@delete')->name('tasks.delete');
+    Route::resource('/tasks','App\Http\Controllers\tasksController');
 });

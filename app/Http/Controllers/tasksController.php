@@ -52,9 +52,9 @@ class tasksController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    public function show($id)
+    public function show(Task $task)
     {
-
+        return view('tasks.show')->with('task',$task);
     }
 
 

@@ -10,7 +10,7 @@ class Task extends Model
 {
     use HasFactory,SoftDeletes;
     protected $fillable = ['title','description','user_id','project_id','deadline','status'];
-    protected $table = ['tasks'];
+    protected $table = 'tasks';
     public CONST status = ['open','blocked','in progress','pending','cancelled','completed'];
 
     public function project()

@@ -44,9 +44,9 @@ class projectController extends Controller
         return redirect()->route('projects.index');
     }
 
-    public function show($id)
+    public function show(Project $project)
     {
-        //
+        return view('projects.show')->with('project',$project);
     }
 
 

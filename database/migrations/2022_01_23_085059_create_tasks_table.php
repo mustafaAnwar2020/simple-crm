@@ -18,6 +18,7 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->longText('description');
             $table->integer('user_id')->unsigned();
+            $table->integer('client_id')->unsigned();
             $table->integer('project_id')->unsigned();
             $table->date('deadline');
             $table->string('status')->default('open');
@@ -25,6 +26,7 @@ class CreateTasksTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }

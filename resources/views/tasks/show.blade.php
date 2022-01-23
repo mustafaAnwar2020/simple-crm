@@ -11,7 +11,7 @@
                     <div>
                         <div class="text-primary">{{ $task->client->contact_name }}</div>
                         <p class="mb-0">{{ $task->client->contact_email }}</p>
-                        <p>{{ $task->client->contact_phone_number }}</p>
+                        <p>{{ $task->client->contact_phone }}</p>
                     </div>
                     <div>
                         <p class="mb-0">{{ $task->client->company_name }}</p>

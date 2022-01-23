@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">Clients list</div>
+        <div class="card-header">Deleted clients</div>
 
         <div class="card-body">
             {{-- @if (session('status'))

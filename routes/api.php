@@ -17,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/login','App\Http\Controllers\API\LoginController@login');
+Route::post('/register','App\Http\Controllers\API\RegiserController@register');
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('/profile','App\Http\Controllers\API\ProfileController@index');
+    Route::put('/profile/update/','App\Http\Controllers\API\ProfileController@update');
+    Route::put('/profile/updatePassword/','App\Http\Controllers\API\ProfileController@updatePassword');
+});

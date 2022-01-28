@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\API\BaseController as Controller;
 use App\Models\Client;
 use App\Http\Resources\ClientsResource;
+use Facade\FlareClient\Http\Client as HttpClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -38,7 +39,7 @@ class ClientsController extends Controller
         return $this->sendResponse(new ClientsResource($client),'Client created successfully!');
     }
 
-    public function update(Request $request, Client $client)
+    public function update(Request $request, $id)
     {
         $input = $request->all();
         $validator = Validator::make($input,[
@@ -53,6 +54,7 @@ class ClientsController extends Controller
         if ($validator->fails()) {
             return $this->sendError('Validation error' , $validator->errors());
         }
+        $client = Client::where('id',$id)->first();
         $client->contact_name = $input['contact_name'];
         $client->contact_email = $input['contact_email'];
         $client->contact_phone = $input['contact_phone'];
@@ -64,8 +66,9 @@ class ClientsController extends Controller
         return $this->sendResponse(new ClientsResource($client),'Client updated successfully!');
     }
 
-    public function destroy(Client $client){
-        $client->delete($client->id);
+    public function destroy($id){
+        $client = Client::where('id',$id)->first();
+        $client->delete($id);
         return $this->sendResponse(new ClientsResource($client),'Client trashed successfully!');
     }
 

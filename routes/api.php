@@ -24,4 +24,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/profile','App\Http\Controllers\API\ProfileController@index');
     Route::put('/profile/update/','App\Http\Controllers\API\ProfileController@update');
     Route::put('/profile/updatePassword/','App\Http\Controllers\API\ProfileController@updatePassword');
+    Route::get('/clients','App\Http\Controllers\API\ClientsController@index');
+    Route::get('/clients/trash','App\Http\Controllers\API\ClientsController@trashedClients');
+    Route::post('/clients/create','App\Http\Controllers\API\ClientsController@store');
+    Route::put('/clients/update','App\Http\Controllers\API\ClientsController@update');
+    Route::delete('/clients/{Client}','App\Http\Controllers\API\ClientsController@destroy');
+    Route::delete('/clients/delete/{id}','App\Http\Controllers\API\ClientsController@delete');
+    Route::get('/clients/restore/{id}','App\Http\Controllers\API\ClientsController@restore');
 });

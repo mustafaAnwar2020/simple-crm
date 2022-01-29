@@ -21,6 +21,9 @@ class ClientsController extends Controller
         return $this->sendResponse(ClientsResource::collection($clients),'All trashed data retrieved successfully!');
     }
 
+    public function show(Client $client){
+        return $this->sendResponse(new ClientsResource($client),'Client is ready!');
+    }
     public function store(Request $request){
         $input = $request->all();
         $validator = Validator::make($input,[
@@ -39,7 +42,7 @@ class ClientsController extends Controller
         return $this->sendResponse(new ClientsResource($client),'Client created successfully!');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Client $client)
     {
         $input = $request->all();
         $validator = Validator::make($input,[
@@ -54,7 +57,6 @@ class ClientsController extends Controller
         if ($validator->fails()) {
             return $this->sendError('Validation error' , $validator->errors());
         }
-        $client = Client::where('id',$id)->first();
         $client->contact_name = $input['contact_name'];
         $client->contact_email = $input['contact_email'];
         $client->contact_phone = $input['contact_phone'];
@@ -66,20 +68,19 @@ class ClientsController extends Controller
         return $this->sendResponse(new ClientsResource($client),'Client updated successfully!');
     }
 
-    public function destroy($id){
-        $client = Client::where('id',$id)->first();
-        $client->delete($id);
+    public function destroy(Client $client){
+        $client->delete($client->id);
         return $this->sendResponse(new ClientsResource($client),'Client trashed successfully!');
     }
 
-    public function delete(Client $client){
-        $client = Client::onlyTrashed()->where('id',$client->id)->forceDelete();
-        return $this->sendResponse(new ClientsResource($client),'Client deleted successfully!');
-    }
+    // public function delete(Client $client){
+    //     $client = Client::onlyTrashed()->where('id',$client->id)->forceDelete();
+    //     return $this->sendResponse(new ClientsResource($client),'Client deleted successfully!');
+    // }
 
-    public function restore(Client $client)
-    {
-        $client = Client::onlyTrashed()->where('id',$client->id)->restore();
-        return $this->sendResponse(new ClientsResource($client),'Client restored successfully!');
-    }
+    // public function restore(Client $client)
+    // {
+    //     $client = Client::onlyTrashed()->where('id',$client->id)->restore();
+    //     return $this->sendResponse(new ClientsResource($client),'Client restored successfully!');
+    // }
 }

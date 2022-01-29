@@ -23,6 +23,11 @@ class ProjectsController extends Controller
         return $this->sendResponse(ProjectResource::collection($project),'All data retrieved successfully!');
     }
 
+    public function trashedProjects(){
+        $project = Project::onlyTrashed()->get();
+        return $this->sendResponse(ProjectResource::collection($project),'All data retrieved successfully!');
+    }
+
     public function store(Request $request)
     {
         $input = $request->all();
@@ -40,15 +45,13 @@ class ProjectsController extends Controller
     }
 
 
-    public function show($id)
+    public function show(Project $project)
     {
-        $project = Project::find($id);
-        dd($project);
         $this->sendResponse(new ProjectResource($project),'Data retrieved successfully!');
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Project $project)
     {
         $input = $request->all();
         $validator = Validator::make($input,[
@@ -60,7 +63,6 @@ class ProjectsController extends Controller
         if ($validator->fails()) {
             return $this->sendError('Validation error' , $validator->errors());
         }
-        $project = Project::where('id',$id)->first();
         $project->title = $input['title'];
         $project->description = $input['description'];
         $project->user_id = $input['user_id'];
@@ -72,10 +74,9 @@ class ProjectsController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy(Project $project)
     {
-        $project = Project::where('id',$id)->first();
-        $project->delete($id);
+        $project->delete($project->id);
         return $this->sendResponse(new ProjectResource($project),'Project deleted successfully!');
     }
 }

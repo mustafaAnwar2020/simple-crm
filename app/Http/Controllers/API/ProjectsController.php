@@ -5,9 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\API\BaseController as Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProjectResource;
-use App\Models\User;
 use App\Models\Project;
-use App\Models\Client;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectsController extends Controller

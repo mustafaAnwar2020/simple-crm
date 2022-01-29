@@ -39,14 +39,13 @@ class TasksController extends Controller
     }
 
 
-    public function show($id)
+    public function show(Task $Task)
     {
-        $task = Task::find($id);
-        return $this->sendResponse(new TasksResource($task),'Your Task is here :D');
+        return $this->sendResponse(new TasksResource($Task),'Your Task is here :D');
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Task $Task)
     {
         $input = $request->all();
         $validator = Validator::make($input,[
@@ -58,16 +57,15 @@ class TasksController extends Controller
         if ($validator->fails()) {
             return $this->sendError('Validation error' , $validator->errors());
         }
-        $task = Task::where('id',$id)->first();
-        $task->title = $input['title'];
-        $task->description = $input['description'];
-        $task->user_id = $input['user_id'];
-        $task->client_id = $input['client_id'];
-        $task->project_id = $input['project_id'];
-        $task->deadline = $input['deadline'];
-        $task->status = $input['status'];
-        $task->save();
-        return $this->sendResponse(new TasksResource($task),'Task updated successfully!');
+        $Task->title = $input['title'];
+        $Task->description = $input['description'];
+        $Task->user_id = $input['user_id'];
+        $Task->client_id = $input['client_id'];
+        $Task->project_id = $input['project_id'];
+        $Task->deadline = $input['deadline'];
+        $Task->status = $input['status'];
+        $Task->save();
+        return $this->sendResponse(new TasksResource($Task),'Task updated successfully!');
 
     }
 
@@ -77,10 +75,10 @@ class TasksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $Task)
     {
-        $task = Task::where('id',$id)->first();
-        $task->delete($id);
-        return $this->sendResponse(new TasksResource($task),'Task deleted successfully!');
+
+        $Task->delete($Task->id);
+        return $this->sendResponse(new TasksResource($Task),'Task deleted successfully!');
     }
 }

@@ -40,4 +40,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/tasks/restore/{task}','App\Http\Controllers\tasksController@restore')->name('tasks.restore');
     Route::delete('/tasks/delete/{task}','App\Http\Controllers\tasksController@delete')->name('tasks.delete');
     Route::resource('/tasks','App\Http\Controllers\tasksController');
+    Route::resource('/users','App\Http\Controllers\UserController');
 });

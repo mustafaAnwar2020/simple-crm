@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Task;
+use App\Models\Project;
 use App\Models\Profile;
 use Spatie\Permission\Models\Role;
 
@@ -16,7 +18,9 @@ class UserController extends Controller
     }
 
     public function show(User $user){
-        return view('users.show')->with('user',$user);
+        $project = Project::where('user_id',$user->id)->get();
+        $task = Task::where('user_id',$user->id)->get();
+        return view('users.show')->with('user',$user)->with('projects',$project)->with('tasks',$task);
     }
 
     public function create(){

@@ -6,9 +6,6 @@
             <a class="btn btn-success" href="{{route('users.create')}}">
                 Create user
             </a>
-            <a class="btn btn-xs btn-danger" href="">
-                Trash
-            </a>
         </div>
     </div>
 
@@ -54,7 +51,7 @@
                 </tbody>
             </table>
 
-            {{-- {{ $tasks->withQueryString()->links() }} --}}
+            {{ $user->withQueryString()->links() }}
         </div>
     </div>
 

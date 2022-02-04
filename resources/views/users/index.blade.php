@@ -32,7 +32,7 @@
 
 
                         <tr>
-                            <td>{{$item->name}}</td>
+                            <td><a href="{{route('users.show',$item)}}">{{$item->name}}</a></td>
                             <td>{{$item->email}}</td>
                             <td>{{$item->profile->phone}}</td>
                             <td></td>

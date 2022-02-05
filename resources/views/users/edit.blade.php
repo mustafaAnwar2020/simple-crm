@@ -39,6 +39,18 @@
                 <span class="help-block"> </span>
             </div>
 
+            <div class="form-group">
+                <label for="client_id">Role</label>
+                <select class="form-control" name="role" id="project_id" required>
+
+                    @foreach ($role as $item)
+                        <option value="{{ $item->id }}" {{ $userRole == $item->id ? 'selected' : '' }}>{{ $item->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <span class="help-block"> </span>
+            </div>
+
             <button class="btn btn-primary" type="submit">
                 Save
             </button>

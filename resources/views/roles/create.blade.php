@@ -15,8 +15,8 @@
                 </div>
                 <div class="form-group">
                     <label for="client_id">Permission</label>
-                        @foreach ($permission as $id => $entry)
-                            <input type="checkbox" name="permission[]" value="{{$id}}">{{$entry->name}}
+                        @foreach ($permission as $item)
+                            <input type="checkbox" name="permission[]" value="{{$item->id}}">{{$item->name}}
                         @endforeach
                     <span class="help-block"> </span>
                 </div>

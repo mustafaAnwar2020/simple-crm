@@ -6,7 +6,7 @@
         @csrf
         @method('PUT')
         <div class="card">
-            <div class="card-header">Create role</div>
+            <div class="card-header">Edit role</div>
 
             <div class="card-body">
                 <div class="form-group">

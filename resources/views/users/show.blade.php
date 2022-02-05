@@ -12,6 +12,9 @@
                     <p class="mb-0">{{ $user->profile->phone }}</p>
                     <p class="mb-0">{{ $user->profile->address }}</p>
                     <p class="mb-0">{{ $user->profile->contact }}</p>
+                    @foreach ($user->getRoleNames() as $item)
+                        <p class="mb-0">{{$item}}</p>
+                    @endforeach
 
                 </div>
             </div>

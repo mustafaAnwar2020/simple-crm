@@ -32,7 +32,7 @@
                             <td><a href="{{route('users.show',$item)}}">{{$item->name}}</a></td>
                             <td>{{$item->email}}</td>
                             <td>{{$item->profile->phone}}</td>
-                            <td></td>
+                            @foreach ($item->getRoleNames() as $role)<td>{{$role}}</td>@endforeach
 
                     <td>
                         <a class="btn btn-sm btn-info" href="{{route('users.edit',$item)}}">

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Task;
 use App\Models\Project;
 use App\Models\Profile;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -24,7 +25,8 @@ class UserController extends Controller
     }
 
     public function create(){
-        return view('users.create');
+        $role=Role::all();
+        return view('users.create')->with('role',$role);
     }
     public function store(Request $request)
     {
@@ -35,6 +37,7 @@ class UserController extends Controller
             'phone' => 'required|string',
             'contact' => 'required|url',
             'password' =>'required|string|min:8',
+            'role'=>'required'
         ]);
         // dd($request);
         $user = User::create([
@@ -49,10 +52,14 @@ class UserController extends Controller
             'phone'=>$request->phone,
             'contact'=>$request->contact
         ]);
+        $user->assignRole($request->role);
         return redirect()->route('users.index');
     }
     public function edit(User $user){
-        return view('users.edit')->with('user',$user);
+        $role=Role::all();
+        $userRole = DB::table('model_has_roles')->where('model_id',$user->id)->pluck('role_id','role_id')->first();
+        // dd($userRole);
+        return view('users.edit')->with('user',$user)->with('role',$role)->with('userRole',$userRole);
     }
 
     public function update(Request $request, User $user){
@@ -61,7 +68,8 @@ class UserController extends Controller
             'email' => 'required|email|max:255',
             'address' => 'required|string',
             'phone' => 'required|string',
-            'contact' => 'required|url'
+            'contact' => 'required|url',
+            'role' =>'required'
         ]);
         $user->name = $request->name;
         $user->email = $request->email;
@@ -70,6 +78,8 @@ class UserController extends Controller
         $user->profile->address = $request->address;
         $user->profile->contact = $request->contact;
         $user->profile->save();
+        DB::table('model_has_roles')->where('model_id',$user->id)->delete();
+        $user->assignRole($request->role);
         return redirect()->route('users.index');
     }
 

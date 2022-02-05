@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 class projectController extends Controller
 {
 
+    function __construct()
+    {
+        $this->middleware('permission:project-list|project-create|project-edit|project-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:project-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:project-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:project-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $projects = Project::paginate(20);
@@ -57,13 +64,7 @@ class projectController extends Controller
         return view('projects.edit')->with('project',$project)->with('users',$user)->with('clients',$client);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Project $project)
     {
         $this->validate($request,[

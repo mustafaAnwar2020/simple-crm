@@ -39,6 +39,17 @@
             </div>
 
             <div class="form-group">
+                <label for="client_id">Role</label>
+                <select class="form-control" name="role" id="project_id" required>
+                    @foreach ($role as $item)
+                        <option value="{{ $item->id }}" {{ $item->id == 'id' ? 'selected' : '' }}>{{ $item->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <span class="help-block"> </span>
+            </div>
+
+            <div class="form-group">
                 <label class="required" for="new_password">Password</label>
                 <input class="form-control" type="password" name="password" id="new_password" required>
                 <span class="help-block"> </span>

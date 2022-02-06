@@ -5,16 +5,20 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\API\BaseController as Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProjectResource;
+use App\Models\User;
 use App\Models\Project;
+use App\Models\Client;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    function __construct()
+    {
+        $this->middleware('permission:project-list|project-create|project-edit|project-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:project-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:project-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:project-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $project = Project::all();

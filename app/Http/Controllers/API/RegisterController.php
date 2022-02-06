@@ -25,6 +25,7 @@ class RegiserController extends Controller
         }
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
+        $user->assignRole('user');
         $success['token'] = $user->createToken('123123asd')->accessToken;
         return $this->sendResponse($success,'user created successfully!');
     }

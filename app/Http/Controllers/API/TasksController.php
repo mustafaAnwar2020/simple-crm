@@ -10,11 +10,13 @@ use Illuminate\Http\Request;
 
 class TasksController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    function __construct()
+    {
+        $this->middleware('permission:task-list|task-create|task-edit|task-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:task-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:task-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:task-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $task = Task::all();

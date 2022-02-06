@@ -11,6 +11,13 @@ use Illuminate\Http\Request;
 class tasksController extends Controller
 {
 
+    function __construct()
+    {
+        $this->middleware('permission:task-list|task-create|task-edit|task-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:task-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:task-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:task-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $task = Task::paginate(20);

@@ -27,7 +27,7 @@
                 <tbody>
                     @foreach ($user as $item)
 
-
+                    <?php try{?>
                         <tr>
                             <td><a href="{{route('users.show',$item)}}">{{$item->name}}</a></td>
                             <td>{{$item->email}}</td>
@@ -47,6 +47,24 @@
                         </form>
                     </td>
                     </tr>
+                    <?php } catch(\Exception $e){?>
+                        <p>User's profile doesn't exist</p>
+                        @foreach ($item->getRoleNames() as $role)<td>{{$role}}</td>@endforeach
+
+                    <td>
+                        <a class="btn btn-sm btn-info" href="{{route('users.edit',$item)}}">
+                            Edit
+                        </a>
+
+                        <form action="{{route('users.destroy',$item)}}" method="POST"
+                            onsubmit="return confirm('Are your sure?');" style="display: inline-block;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+                        </form>
+                    </td>
+                    </tr>
+                        <?php }?>
                     @endforeach
                 </tbody>
             </table>

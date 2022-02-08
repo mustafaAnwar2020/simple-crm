@@ -23,19 +23,19 @@
 
             <div class="form-group">
                 <label class="required" for="address">Address</label>
-                <input class="form-control" type="text" name="address" value="{{$user->profile->address}}" id="address"  required>
+                <input class="form-control" type="text" name="address" <?php try{?>value="{{$user->profile->address}}"<?php }catch(\Exception $e){echo "\"";}?> id="address"  required>
                 <span class="help-block"> </span>
             </div>
 
             <div class="form-group">
                 <label class="required" for="phone_number">Phone number</label>
-                <input class="form-control" type="text" name="phone" value="{{$user->profile->phone}}" id="phone_number"  required>
+                <input class="form-control" type="text" name="phone" <?php try{?>value="{{$user->profile->phone}}"<?php }catch(\Exception $e){echo "\"";}?> id="phone_number"  required>
                 <span class="help-block"> </span>
             </div>
 
             <div class="form-group">
                 <label class="required" for="phone_number">Contact</label>
-                <input class="form-control" type="text" name="contact" value="{{$user->profile->contact}}" id="phone_number"  required>
+                <input class="form-control" type="text" name="contact" <?php try{?>value="{{$user->profile->contact}}"<?php }catch(\Exception $e){echo "\"";}?> id="phone_number"  required>
                 <span class="help-block"> </span>
             </div>
 

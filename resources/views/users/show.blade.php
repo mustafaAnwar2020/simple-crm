@@ -7,6 +7,7 @@
                 <div class="card-header">User info</div>
 
                 <div class="card-body">
+                    <?php try{?>
                     <p class="mb-0">{{ $user->name }}</p>
                     <p class="mb-0">{{ $user->email }}</p>
                     <p class="mb-0">{{ $user->profile->phone }}</p>
@@ -15,7 +16,10 @@
                     @foreach ($user->getRoleNames() as $item)
                         <p class="mb-0">{{$item}}</p>
                     @endforeach
+                        <?php }catch(\Exception $e){?>
+                            <p class="mb-0">User's profile doesn't exist</p>
 
+                            <?php }?>
                 </div>
             </div>
         </div>

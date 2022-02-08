@@ -29,7 +29,7 @@
                 <div class="card-body">
                     <p class="mb-0">{{ $project->user->name }}</p>
                     <p class="mb-0">{{ $project->user->email }}</p>
-                    <p class="mb-0">{{ $project->user->profile->phone }}</p>
+                    <?php try{?><p class="mb-0">{{ $project->user->profile->phone }}</p><?php }catch(\Exception $e){}?>
                 </div>
             </div>
         </div>

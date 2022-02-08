@@ -25,7 +25,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', 'App\Http\Controllers\ProfileController@index');
+    Route::get('/profile', 'App\Http\Controllers\ProfileController@index')->name('profile.index');
     Route::post('/profile/update', 'App\Http\Controllers\ProfileController@update')->name('profile.update');
     Route::post('/profile/password', 'App\Http\Controllers\ProfileController@changePassword')->name('profile.changePassword');
     Route::get('/clients/trash', 'App\Http\Controllers\clientsController@trashedClients')->name('clients.trash');
@@ -41,4 +41,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/tasks/delete/{task}','App\Http\Controllers\tasksController@delete')->name('tasks.delete');
     Route::resource('/tasks','App\Http\Controllers\tasksController');
     Route::resource('/users','App\Http\Controllers\UserController');
+    Route::resource('/roles','App\Http\Controllers\RolesController');
 });

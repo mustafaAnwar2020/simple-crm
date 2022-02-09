@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\Client;
 use App\Models\User;
 use App\Models\Project;
+use App\Notifications\TaskAssigned;
 use Illuminate\Http\Request;
 
 class tasksController extends Controller
@@ -55,6 +56,8 @@ class tasksController extends Controller
             'deadline' =>$request->deadline,
             'status' =>$request->status
         ]);
+        $user = User::find($request->user_id);
+        $user->notify(new TaskAssigned($task));
         // dd($task);
         return redirect()->route('tasks.index');
     }
@@ -90,6 +93,8 @@ class tasksController extends Controller
         $task->deadline = $request->deadline;
         $task->status = $request->status;
         $task->save();
+        $user = User::find($request->user_id);
+        $user->notify(new TaskAssigned($task));
         return redirect()->route('tasks.index');
 
     }

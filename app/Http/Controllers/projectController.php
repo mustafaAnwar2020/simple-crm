@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\Client;
+use App\Notifications\ProjectAssigned;
 use Illuminate\Http\Request;
 
 class projectController extends Controller
@@ -48,6 +49,8 @@ class projectController extends Controller
             'deadline' =>$request->deadline,
             'status' => $request->status
         ]);
+        $user = User::find($request->user_id);
+        $user->notify(new ProjectAssigned($project));
         return redirect()->route('projects.index');
     }
 
@@ -80,6 +83,8 @@ class projectController extends Controller
         $project->deadline = $request->deadline;
         $project->status =$request->status;
         $project->save();
+        $user = User::find($request->user_id);
+        $user->notify(new ProjectAssigned($project));
         return redirect()->route('projects.index');
         }
 
